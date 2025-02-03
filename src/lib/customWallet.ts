@@ -1,7 +1,8 @@
+"use server"
 import { Wallet } from '@ethereumjs/wallet'
 
 // Generate a new Ethereum wallet
-export const generateCustomWallet = () => {
+export async function generateCustomWallet() {
     console.log('Generating new wallet...')
     const wallet = Wallet.generate();
     const privateKey = wallet.getPrivateKeyString();

@@ -17,7 +17,7 @@ export const customWalletConnector: CreateConnectorFn = () => {
     },
 
     async connect() {
-      const generatedWallet = generateCustomWallet();
+      const generatedWallet = await generateCustomWallet();
       wallet = {
         privateKey: generatedWallet.privateKey,
         address: generatedWallet.address as `0x${string}`,
