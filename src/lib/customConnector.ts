@@ -17,15 +17,20 @@ export const customWalletConnector: CreateConnectorFn = () => {
     },
 
     async connect() {
-      const generatedWallet = await generateCustomWallet();
-      wallet = {
-        privateKey: generatedWallet.privateKey,
-        address: generatedWallet.address as `0x${string}`,
-      };
-      return {
-        accounts: [wallet.address],
-        chainId: currentChainId,
-      };
+      try {
+        const generatedWallet = await generateCustomWallet();
+        wallet = {
+          privateKey: generatedWallet.privateKey,
+          address: generatedWallet.address as `0x${string}`,
+        };
+        return {
+          accounts: [wallet.address],
+          chainId: currentChainId,
+        };
+      } catch (error) {
+        console.error('Failed to connect wallet:', error);
+        throw new Error('Failed to connect wallet');
+      }
     },
 
     async disconnect() {
