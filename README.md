@@ -1,7 +1,19 @@
 # Interlock - Galactic Gateway
 
 
+## Prerequisites
 
+- VS Code or any Code Editor
+- Node.js installed on your machine
+- npm package manager
+
+## Technology Stack
+
+- Next.js
+- Supabase Drizzle Orm
+- Supabase Auth
+- Typescript
+- Tailwind CSS
 
 ## Contributing 🤝
 
