@@ -19,8 +19,6 @@ This guide helps you get the project up and running locally.
 
    ```bash
    npm install
-   # or
-   yarn install
    ```
 
 3. **Set up environment variables**
@@ -37,8 +35,6 @@ This guide helps you get the project up and running locally.
 
    ```bash
    npm run dev
-   # or
-   yarn dev
    ```
 
    Your app will be running at [http://localhost:3000](http://localhost:3000)
