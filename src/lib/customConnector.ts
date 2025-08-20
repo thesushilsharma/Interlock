@@ -1,19 +1,19 @@
-import { CreateConnectorFn } from 'wagmi';
-import { generateCustomWallet } from './customWallet';
-import { getCustomWalletSigner } from './perfromTransaction';
+import { CreateConnectorFn } from "wagmi";
+import { generateCustomWallet } from "./customWallet";
+import { getCustomWalletSigner } from "./perfromTransaction";
 
 export const customWalletConnector: CreateConnectorFn = () => {
   let wallet: { privateKey: string; address: `0x${string}` } | null = null;
   let currentChainId: number = 8453; // Default to Base Mainnet
 
   return {
-    id: 'interlock',
-    name: 'Interlock - Galactic Gateway',
-    type: 'custom',
+    id: "interlock",
+    name: "Interlock - Galactic Gateway",
+    type: "custom",
     ready: true,
 
     options: {
-      privateKey: '', // Initialize with an empty string
+      privateKey: "", // Initialize with an empty string
     },
 
     async connect() {
@@ -28,8 +28,8 @@ export const customWalletConnector: CreateConnectorFn = () => {
           chainId: currentChainId,
         };
       } catch (error) {
-        console.error('Failed to connect wallet:', error);
-        throw new Error('Failed to connect wallet');
+        console.error("Failed to connect wallet:", error);
+        throw new Error("Failed to connect wallet");
       }
     },
 
@@ -61,7 +61,8 @@ export const customWalletConnector: CreateConnectorFn = () => {
 
     onChainChanged(chainId: string | number) {
       // Ensure chainId is converted to a number
-      currentChainId = typeof chainId === 'string' ? parseInt(chainId, 10) : chainId;
+      currentChainId =
+        typeof chainId === "string" ? parseInt(chainId, 10) : chainId;
     },
 
     onDisconnect() {
@@ -70,14 +71,17 @@ export const customWalletConnector: CreateConnectorFn = () => {
     },
 
     async getProvider() {
-      throw new Error('Provider not available for custom wallet');
+      throw new Error("Provider not available for custom wallet");
     },
 
     async getSigner() {
       if (!wallet) {
-        throw new Error('Wallet is not connected');
+        throw new Error("Wallet is not connected");
       }
-      return getCustomWalletSigner(wallet.privateKey as `0x${string}`, currentChainId);
+      return getCustomWalletSigner(
+        wallet.privateKey as `0x${string}`,
+        currentChainId
+      );
     },
   };
 };
