@@ -52,7 +52,7 @@ function WalletConnect() {
         <div className="text-center">
           <p className="text-lg font-semibold">Connected</p>
           <p className="text-sm text-gray-300 break-all">{address}</p>
-          <button
+          <button type="button"
             onClick={() => disconnect()}
             className="mt-4 px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition"
           >
