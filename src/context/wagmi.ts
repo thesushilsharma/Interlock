@@ -1,7 +1,7 @@
 import { customWalletConnector } from '@/lib/customConnector';
 import { createConfig, http } from 'wagmi';
 import { mainnet, polygon, optimism, arbitrum, base } from 'wagmi/chains';
-import { injected, metaMask, safe, walletConnect } from 'wagmi/connectors'
+import { injected, metaMask, safe } from 'wagmi/connectors'
 
 export const config = createConfig({
   connectors: [customWalletConnector, injected(),
