@@ -1,4 +1,4 @@
-import { createWalletClient, custom, http, publicActions, formatEther } from "viem";
+import { createWalletClient, Address, http, publicActions, formatEther } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
 import { base, mainnet, polygon, optimism, arbitrum } from "wagmi/chains";
 
@@ -16,12 +16,12 @@ const getChainById = (chainId: number) => {
     case 42161:
       return arbitrum;
     default:
-      return mainnet; // Default to mainnet if chainId is not recognized
+      return base; // Default to BASE if chainId is not recognized
   }
 };
 
 export const getCustomWalletSigner = (
-  privateKey: `0x${string}`,
+  privateKey: Address,
   chainId: number = 8453
 ) => {
   const chain = getChainById(chainId);
@@ -38,8 +38,8 @@ export const getCustomWalletSigner = (
 };
 
 export const sendAdvancedTransaction = async (
-  privateKey: `0x${string}`,
-  to: `0x${string}`,
+  privateKey: Address,
+  to: Address,
   value: bigint,
   chainId: number = 8453
 ) => {
@@ -72,7 +72,7 @@ export const sendAdvancedTransaction = async (
 };
 
 
-export const getBalance = async (privateKey: `0x${string}`, chainId: number = 8453) => {
+export const getBalance = async (privateKey: Address, chainId: number = 8453) => {
   const walletClient = getCustomWalletSigner(privateKey, chainId);
 
   try {

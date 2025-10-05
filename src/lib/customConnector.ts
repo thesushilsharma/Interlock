@@ -1,9 +1,10 @@
-import { CreateConnectorFn } from "wagmi";
+import type { CreateConnectorFn } from "wagmi";
+import type { Address } from "viem";
 import { generateCustomWallet } from "./customWallet";
 import { getCustomWalletSigner } from "./perfromTransaction";
 
-export const customWalletConnector: CreateConnectorFn = () => {
-  let wallet: { privateKey: string; address: `0x${string}` } | null = null;
+export const customWalletConnector: CreateConnectorFn = (() => {
+  let wallet: { privateKey: string; address: Address } | null = null;
   let currentChainId: number = 8453; // Default to Base Mainnet
 
   return {
@@ -16,15 +17,20 @@ export const customWalletConnector: CreateConnectorFn = () => {
       privateKey: "", // Initialize with an empty string
     },
 
-    async connect() {
+    async connect(options?: { withCapabilities?: boolean }) {
       try {
         const generatedWallet = await generateCustomWallet();
         wallet = {
           privateKey: generatedWallet.privateKey,
-          address: generatedWallet.address as `0x${string}`,
+          address: generatedWallet.address as Address,
         };
+
+        const accounts = options?.withCapabilities
+          ? [{ address: wallet.address, capabilities: {} }]
+          : [wallet.address];
+
         return {
-          accounts: [wallet.address],
+          accounts: accounts as readonly Address[] | readonly { address: Address; capabilities: Record<string, unknown> }[],
           chainId: currentChainId,
         };
       } catch (error) {
@@ -55,7 +61,9 @@ export const customWalletConnector: CreateConnectorFn = () => {
         wallet = null; // Clear wallet if no accounts are available
       } else {
         // Update wallet address if it changes
-        wallet = { ...wallet!, address: accounts[0] as `0x${string}` };
+        if (wallet) {
+          wallet = { ...wallet, address: accounts[0] as Address };
+        }
       }
     },
 
@@ -79,9 +87,9 @@ export const customWalletConnector: CreateConnectorFn = () => {
         throw new Error("Wallet is not connected");
       }
       return getCustomWalletSigner(
-        wallet.privateKey as `0x${string}`,
+        wallet.privateKey as Address,
         currentChainId
       );
     },
   };
-};
+}) as CreateConnectorFn;
